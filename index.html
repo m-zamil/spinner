@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spinner</title>
+    <style>
+      html {
+        background: #f5f7fb;
+        text-align: center;
+        font-size: 10px;
+      }
+
+      body {
+        margin: 0;
+        font-size: 2rem;
+        margin: 0;
+        flex: 1;
+        align-items: center;
+        background-color: white;
+      }
+      .wheel-outside {
+        width: 450px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 200px;
+        overflow: hidden;
+        height: 215px;
+        margin: 0 auto;
+      }
+      .wheel-outside-after {
+        position: absolute;
+        transform: scale(1);
+        border-right: 2px dashed black;
+        width: 0px;
+        margin-top: -50px;
+        height: 150px;
+        font-size: 0;
+        line-height: 0;
+        border-collapse: collapse;
+      }
+      .wheel-outside-after::after{
+        content: "";
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    top: 100%;
+    margin-top: 5px;
+    position: absolute;
+    background-image: url(triangle.svg);
+    left: calc(-50% + 1px);
+    transform: translateX(-50%);
+    background-repeat: no-repeat;
+    background-size: contain;
+        
+      }
+      .wheel-btns {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        font-size: 66px;
+        font-weight: bold;
+      }
+      .wheel-btns button {
+        font-size: 30px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        outline: none;
+        border: 0;
+        border-radius: 50%;
+        margin: 0 30px;
+        cursor: pointer;
+        border: 1px solid lightgrey;
+        background: white;
+      }
+      .wheel-wrapper {
+        border: 7px solid #53aa75;
+        border-radius: 50%;
+      }
+
+      .wheel {
+        width: 40rem;
+        height: 40rem;
+        border: 7px solid white;
+        border-radius: 50%;
+        margin: 0px auto;
+        position: relative;
+        padding: 2rem;
+        background-color: #f6f7fc;
+        transition: all 0.3s ease;
+      }
+
+      .outer-wheel-face {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        background-color: #f6f7fc;
+      }
+
+      .outer-wheel-face::after {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        transform: rotate(90deg);
+      }
+      .marking span::after {
+        content: '$';
+      }
+
+      .outer-wheel-face .marking {
+        content: '';
+        position: absolute;
+        height: 100%;
+        z-index: 0;
+        left: 50%;
+      }
+      .marking:nth-child(odd) span {
+        display: inline-block;
+        color: black;
+        position: absolute;
+        top: -65px;
+        left: -4px;
+        transform: translateX(-50%);
+        left: -50%;
+        user-select: none;
+      }
+      .marking:nth-child(odd) span:nth-child(2) {
+        display: inline-block;
+        color: black;
+        position: absolute;
+        transform: translateX(-50%) rotate(-180deg);
+        left: -50%;
+        bottom: -65px;
+      }
+      .marking:nth-child(even) span {
+        display: none;
+      }
+
+      .outer-wheel-face .marking {
+        background: #dde4f1;
+        width: 1px;
+      }
+      .outer-wheel-face .marking.marking-0 {
+      }
+
+      .outer-wheel-face .marking.marking-1 {
+        transform: rotate(15deg);
+      }
+      .outer-wheel-face .marking.marking-2 {
+        transform: rotate(30deg);
+      }
+      .outer-wheel-face .marking.marking-3 {
+        transform: rotate(45deg);
+      }
+
+      .outer-wheel-face .marking.marking-4 {
+        transform: rotate(60deg);
+      }
+
+      .outer-wheel-face .marking.marking-5 {
+        transform: rotate(75deg);
+      }
+
+      .outer-wheel-face .marking.marking-6 {
+        transform: rotate(90deg);
+      }
+      .outer-wheel-face .marking.marking-7 {
+        transform: rotate(105deg);
+      }
+      .outer-wheel-face .marking.marking-8 {
+        transform: rotate(120deg);
+      }
+      .outer-wheel-face .marking.marking-9 {
+        transform: rotate(135deg);
+      }
+      .outer-wheel-face .marking.marking-10 {
+        transform: rotate(150deg);
+      }
+      .outer-wheel-face .marking.marking-11 {
+        transform: rotate(165deg);
+      }
+      .outer-wheel-face .marking:nth-child(odd) {
+        z-index: 2;
+        background: #c3ccdc;
+      }
+
+      .inner-wheel-face {
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        background: white;
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 100%;
+        border-radius: 100%;
+        z-index: 3;
+      }
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        top: 18px;
+        left: 18px;
+        right: 18px;
+        border: 12px solid #f6f7fc;
+        bottom: 18px;
+      }
+      .circle-2 {
+        position: absolute;
+        border-radius: 50%;
+        top: 48px;
+        left: 48px;
+        right: 48px;
+        border: 12px solid #f6f7fc;
+        bottom: 48px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="wheel-outside">
+      <div class="wheel-wrapper" style="transform: rotate(-90deg)">
+        <div class="wheel" id="wheel" style="transform: rotate(0deg)">
+          <div class="outer-wheel-face">
+            <div class="marking marking-0">
+              <span data-position="0">0</span>
+              <span data-position="12">60</span>
+            </div>
+            <div class="marking marking-1">
+              <span data-position="1">5</span>
+              <span data-position="13">65</span>
+            </div>
+            <div class="marking marking-2">
+              <span data-position="2">10</span>
+              <span data-position="14">70</span>
+            </div>
+            <div class="marking marking-3">
+              <span data-position="3">15</span>
+              <span data-position="15">75</span>
+            </div>
+            <div class="marking marking-4">
+              <span data-position="4">20</span>
+              <span data-position="16">80</span>
+            </div>
+            <div class="marking marking-5">
+              <span data-position="5">25</span>
+              <span data-position="17">85</span>
+            </div>
+            <div class="marking marking-6">
+              <span data-position="6">30</span>
+              <span data-position="18">90</span>
+            </div>
+            <div class="marking marking-7">
+              <span data-position="7">35</span>
+              <span data-position="19">95</span>
+            </div>
+            <div class="marking marking-8">
+              <span data-position="8">40</span>
+              <span data-position="20">100</span>
+            </div>
+            <div class="marking marking-9">
+              <span data-position="9">45</span>
+              <span data-position="21">105</span>
+            </div>
+            <div class="marking marking-10">
+              <span data-position="10">50</span>
+              <span data-position="22">110</span>
+            </div>
+            <div class="marking marking-11">
+              <span data-position="11">55</span>
+              <span data-position="23">115</span>
+            </div>
+            <div class="inner-wheel-face">
+            </div>
+          </div>
+          <div class="circle"></div>
+          <div class="circle-2"></div>
+        </div>
+      </div>
+      <div class="wheel-outside-after">
+
+    </div>
+    </div>
+    <div class="wheel-btns">
+      <button id="wheelmin">-</button>
+      <div id="bigNumber">30</div>
+      <button id="wheeladd">+</button>
+    </div>
+    <script>
+      const wheel1 = document.getElementById('wheel');
+      const wheelMin = document.getElementById('wheelmin');
+      const wheelAdd = document.getElementById('wheeladd');
+      let deg = 0;
+      wheel1.style.transform = `rotate(${deg})`;
+
+      let arr = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115];
+      let arr2 = [];
+      let bigNumPos = 6;
+      let lastNumPos;
+      let bigNumber = document.getElementById('bigNumber');
+      bigNumber.textContent = arr[bigNumPos];
+
+      for (var i = 0; i <= 23; i++) {
+        arr2[i] = document.querySelector(`[data-position="${i}"]`);
+      }
+      arr2.forEach((item, key) => {
+        item.textContent = arr[key];
+      });
+
+      wheelMin.addEventListener('click', () => {
+        if (deg == 0) {
+        } else {
+          deg += 15;
+          if (bigNumPos <= 0) {
+            bigNumPos = 23;
+          } else {
+            bigNumPos--;
+          }
+          bigNumber.textContent = arr[bigNumPos];
+
+          wheel1.style.transform = `rotate(${deg}deg)`;
+        }
+      });
+      wheelAdd.addEventListener('click', () => {
+        if (bigNumPos >= 23) {
+          bigNumPos = 0;
+        } else bigNumPos++;
+        deg -= 15;
+        bigNumber.textContent = arr[bigNumPos];
+        wheel1.style.transform = `rotate(${deg}deg)`;
+      });
+    </script>
+    <script src="./wheel.js"></script>
+  </body>
+</html>
